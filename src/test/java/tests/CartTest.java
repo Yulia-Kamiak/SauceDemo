@@ -4,7 +4,7 @@ import org.testng.annotations.Test;
 
 public class CartTest extends BaseTest {
 
-    @Test
+    @Test(description = "check that user can buy", retryAnalyzer = Retry.class)
     public void buyProduct() {
         loginPage.open();
         loginPage.login("standard_user", "secret_sauce");
@@ -12,7 +12,7 @@ public class CartTest extends BaseTest {
         cartPage.open();
     }
 
-    @Test
+    @Test(description = "check product's price in cart", retryAnalyzer = Retry.class)
     public void checkPriceInCart() {
         loginPage.open();
         loginPage.login("standard_user", "secret_sauce");
@@ -23,7 +23,7 @@ public class CartTest extends BaseTest {
         Assert.assertEquals(productPriceOnCartPage, productPriceOnProductPage, "This price is incorrect");
     }
 
-    @Test
+    @Test(description = "check that user can add two items in cart", retryAnalyzer = Retry.class)
     public void addTwoItemsInCart() {
         loginPage.open();
         loginPage.login("standard_user", "secret_sauce");
@@ -34,7 +34,7 @@ public class CartTest extends BaseTest {
         Assert.assertTrue(cartPage.isProductDisplayed("Sauce Labs Fleece Jacket"));
     }
 
-    @Test
+    @Test(description = "check that user can make an order", retryAnalyzer = Retry.class)
     public void makeAnOrder() {
         loginPage.open();
         loginPage.login("standard_user", "secret_sauce");
@@ -47,7 +47,7 @@ public class CartTest extends BaseTest {
                 "Your order is failed");
     }
 
-    @Test
+    @Test(description = "check that problem user can't delete from cart", retryAnalyzer = Retry.class)
     public void problemUserDeletesFromCart() {
         loginPage.open();
         loginPage.login("problem_user", "secret_sauce");
@@ -58,7 +58,7 @@ public class CartTest extends BaseTest {
                 "Problem user can delete an item from cart");
     }
 
-    @Test
+    @Test(description = "check item description in cart", retryAnalyzer = Retry.class)
     public void checkItemDescriptionInCart() {
         loginPage.open();
         loginPage.login("standard_user", "secret_sauce");

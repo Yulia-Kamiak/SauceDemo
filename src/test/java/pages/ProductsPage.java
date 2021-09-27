@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ProductsPage extends BasePage {
 
-    private static final By TITLE = By.cssSelector(".title");
+    private static final By TITLE = By.cssSelector("[class=title]");
     public static final String BASE_PRODUCT_ON_PRODUCT_PAGE_LOCATOR = "//*[contains(text(), '%s')]//ancestor::*[contains" +
             "(@class, 'inventory_item_";
     private static final String PRODUCT_LOCATOR = "//*[contains(text(), '%s')]/ancestor::*[contains(@class, " +
@@ -31,22 +31,27 @@ public class ProductsPage extends BasePage {
     }
 
     public String getHeader() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(TITLE));
         return driver.findElement(TITLE).getText();
     }
 
     public void addToCart(String product) {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(String.format(PRODUCT_LOCATOR, product))));
         driver.findElement(By.xpath(String.format(PRODUCT_LOCATOR, product))).click();
     }
 
     public String getPrice(String product) {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(String.format(PRODUCT_PRICE_LOCATOR, product))));
         return driver.findElement(By.xpath(String.format(PRODUCT_PRICE_LOCATOR, product))).getText();
     }
 
     public String getProductDescription(String product) {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(String.format(PRODUCT_DESCRIPTION_LOCATOR, product))));
         return driver.findElement(By.xpath(String.format(PRODUCT_DESCRIPTION_LOCATOR, product))).getText();
     }
 
     public void removeFromCart(String product) {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(String.format(PRODUCT_LOCATOR, product))));
         driver.findElement(By.xpath(String.format(PRODUCT_LOCATOR, product))).click();
     }
 

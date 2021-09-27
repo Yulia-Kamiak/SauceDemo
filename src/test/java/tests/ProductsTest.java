@@ -5,7 +5,7 @@ import java.util.List;
 
 public class ProductsTest extends BaseTest {
 
-    @Test
+    @Test(description = "sort products alphabetically in ascending order", retryAnalyzer = Retry.class)
     public void sortDescOrderName() {
         loginPage.open();
         loginPage.login("standard_user", "secret_sauce");
@@ -15,7 +15,7 @@ public class ProductsTest extends BaseTest {
         Assert.assertEquals(names.get(5), "Sauce Labs Backpack", "Sorting is not correctly performed");
     }
 
-    @Test
+    @Test(description = "sorting products in descending alphabetical order", retryAnalyzer = Retry.class)
     public void sortAscOrderName() {
         loginPage.open();
         loginPage.login("standard_user", "secret_sauce");
@@ -25,7 +25,7 @@ public class ProductsTest extends BaseTest {
         Assert.assertEquals(names.get(5), "Test.allTheThings() T-Shirt (Red)");
     }
 
-    @Test
+    @Test(description = "sorting products by price in ascending order", retryAnalyzer = Retry.class)
     public void sortAscOrderPrice() {
         loginPage.open();
         loginPage.login("standard_user", "secret_sauce");
@@ -35,7 +35,7 @@ public class ProductsTest extends BaseTest {
         Assert.assertEquals(names.get(5), "Sauce Labs Fleece Jacket");
     }
 
-    @Test
+    @Test(description = "sorting goods by price in descending order", retryAnalyzer = Retry.class)
     public void sortDescOrderPrice() {
         loginPage.open();
         loginPage.login("standard_user", "secret_sauce");
