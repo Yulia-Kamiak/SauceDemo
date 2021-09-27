@@ -1,6 +1,7 @@
 package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class CheckoutPage extends BasePage {
 
@@ -17,6 +18,7 @@ public class CheckoutPage extends BasePage {
 
     public void open() {
         driver.get(BASE_URL + "checkout-step-one.html");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(CONTINUE_BUTTON));
     }
 
     public void confirmOrder(String firstName, String lastName, String zipCode) {
@@ -25,9 +27,11 @@ public class CheckoutPage extends BasePage {
         driver.findElement(ZIPCODE).sendKeys(zipCode);
         driver.findElement(CONTINUE_BUTTON).click();
         driver.findElement(FINISH_BUTTON).click();
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(FINISH_BUTTON));
     }
 
     public String getOrderSuccessful() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(CONFIRMATION_MESSAGE));
         return driver.findElement(CONFIRMATION_MESSAGE).getText();
     }
 }

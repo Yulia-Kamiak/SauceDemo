@@ -10,8 +10,6 @@ import java.util.concurrent.TimeUnit;
 public abstract class BasePage {
 
     public static final String BASE_URL = "https://www.saucedemo.com";
-    //public static final String BASE_PRODUCT_ON_PRODUCT_PAGE_LOCATOR = "//*[contains(text(), '%s')]//ancestor::*[contains" +
-     //       "(@class, 'inventory_item_";
 
     WebDriver driver;
     WebDriverWait wait;
