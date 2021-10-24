@@ -1,33 +1,22 @@
 package pages;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
-import java.util.ArrayList;
-import java.util.List;
 
-public class ProductsPage extends BasePage {
+public class ProductsPage extends BasePage{
 
     private static final By TITLE = By.cssSelector("[class=title]");
     public static final String BASE_PRODUCT_ON_PRODUCT_PAGE_LOCATOR = "//*[contains(text(), '%s')]//ancestor::*[contains" +
             "(@class, 'inventory_item_";
-    private static final String PRODUCT_LOCATOR = "//*[contains(text(), '%s')]/ancestor::*[contains(@class, " +
-            "'inventory_item')]//button";
-    private static final String PRODUCT_PRICE_LOCATOR = BASE_PRODUCT_ON_PRODUCT_PAGE_LOCATOR +
-            "description')]//descendant::*[contains(@class, 'inventory_item_price')]";
-    private static final String PRODUCT_DESCRIPTION_LOCATOR = BASE_PRODUCT_ON_PRODUCT_PAGE_LOCATOR +
-            "label')]/child::*[contains(@class, 'inventory_item_desc')]";
-    private static final By DROPDOWN = By.xpath("//select[@class='product_sort_container']");
-    private static final String PRODUCT_TITLE = ".inventory_item_name";
+    String productLocator = "//*[contains(text(),'%s')]/ancestor::*[contains(@class,'inventory_item')]//button";
+    String productPriceLocator = BASE_PRODUCT_ON_PRODUCT_PAGE_LOCATOR + "description')]//descendant::*[contains(@class, " +
+            "'inventory_item_price')]";
+    String productDescriptionLocator = BASE_PRODUCT_ON_PRODUCT_PAGE_LOCATOR + "label')]/child::*[contains(@class, " +
+            "'inventory_item_desc')]";
 
     public ProductsPage(WebDriver driver) {
         super(driver);
-    }
-
-    public void open() {
-        driver.get(BASE_URL + "/inventory.html");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(TITLE));
     }
 
     public String getHeader() {
@@ -36,37 +25,23 @@ public class ProductsPage extends BasePage {
     }
 
     public void addToCart(String product) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(String.format(PRODUCT_LOCATOR, product))));
-        driver.findElement(By.xpath(String.format(PRODUCT_LOCATOR, product))).click();
-    }
-
-    public String getPrice(String product) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(String.format(PRODUCT_PRICE_LOCATOR, product))));
-        return driver.findElement(By.xpath(String.format(PRODUCT_PRICE_LOCATOR, product))).getText();
-    }
-
-    public String getProductDescription(String product) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(String.format(PRODUCT_DESCRIPTION_LOCATOR, product))));
-        return driver.findElement(By.xpath(String.format(PRODUCT_DESCRIPTION_LOCATOR, product))).getText();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(String.format(productLocator, product))));
+        driver.findElement(By.xpath(String.format(productLocator, product))).click();
     }
 
     public void removeFromCart(String product) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(String.format(PRODUCT_LOCATOR, product))));
-        driver.findElement(By.xpath(String.format(PRODUCT_LOCATOR, product))).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(String.format(productLocator, product))));
+        driver.findElement(By.xpath(String.format(productLocator, product))).click();
     }
 
-    public void selectOption(String value) {
-        WebElement selectElement = driver.findElement(DROPDOWN);
-        Select option = new Select(selectElement);
-        option.selectByVisibleText(value);
+    public String getPrice(String product) {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(String.format(productPriceLocator, product))));
+        return driver.findElement(By.xpath(String.format(productPriceLocator, product))).getText();
     }
 
-    public List<String> getProductNames() {
-        List<String> stringNames = new ArrayList<>();
-        List<WebElement> names = driver.findElements(By.cssSelector(PRODUCT_TITLE));
-        for (WebElement element : names) {
-            stringNames.add(element.getText());
-        }
-        return stringNames;
+    public String getProductDescription(String product) {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(String.format(productDescriptionLocator, product))));
+        return driver.findElement(By.xpath(String.format(productDescriptionLocator, product))).getText();
     }
+
 }
