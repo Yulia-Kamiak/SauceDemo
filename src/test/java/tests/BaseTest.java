@@ -1,39 +1,38 @@
 package tests;
+
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
+import org.testng.ITestContext;
+import org.testng.annotations.*;
 import pages.CartPage;
 import pages.CheckoutPage;
 import pages.LoginPage;
 import pages.ProductsPage;
 import java.util.concurrent.TimeUnit;
 
+@Listeners(TestListener.class)
 public class BaseTest {
 
-    protected WebDriver driver;
-    protected LoginPage loginPage;
-    protected ProductsPage productsPage;
-    protected CartPage cartPage;
-    protected CheckoutPage checkoutPage;
+    WebDriver driver;
+    LoginPage loginPage;
+    ProductsPage productsPage;
+    CartPage cartPage;
+    CheckoutPage checkoutPage;
 
     @Parameters("browser")
     @BeforeMethod
-    void setup(@Optional("firefox") String browser) {
+    void setUp(@Optional("firefox") String browser, ITestContext context) {
         if (browser.equals("firefox")) {
             WebDriverManager.firefoxdriver().setup();
             driver = new FirefoxDriver();
-        }else if (browser.equals("is")) {
-            WebDriverManager.iedriver().setup();
-            driver = new InternetExplorerDriver();
+        } else if (browser.equals("chrome")) {
+            WebDriverManager.chromedriver().setup();
+            driver = new ChromeDriver();
         }
-        WebDriverManager.firefoxdriver().setup();
-        driver = new FirefoxDriver();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        context.setAttribute("driver", driver);
+        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
         loginPage = new LoginPage(driver);
         productsPage = new ProductsPage(driver);
         cartPage = new CartPage(driver);
@@ -41,7 +40,7 @@ public class BaseTest {
     }
 
     @AfterMethod(alwaysRun = true)
-    void tearDown() {
+    public void tearDown() {
         driver.quit();
     }
 }

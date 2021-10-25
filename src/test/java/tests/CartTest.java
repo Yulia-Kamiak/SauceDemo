@@ -1,10 +1,16 @@
 package tests;
-import org.testng.Assert;
+
+import io.qameta.allure.Issue;
+import io.qameta.allure.TmsLink;
 import org.testng.annotations.Test;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 public class CartTest extends BaseTest {
 
     @Test(description = "check that user can buy", retryAnalyzer = Retry.class)
+    @Issue("TMS-123")
+    @TmsLink("TMS-1")
     public void buyProduct() {
         loginPage.open();
         loginPage.login("standard_user", "secret_sauce");
@@ -20,7 +26,7 @@ public class CartTest extends BaseTest {
         String productPriceOnProductPage = productsPage.getPrice("Sauce Labs Backpack");
         cartPage.open();
         String productPriceOnCartPage = cartPage.getPrice("Sauce Labs Backpack");
-        Assert.assertEquals(productPriceOnCartPage, productPriceOnProductPage, "This price is incorrect");
+        assertEquals(productPriceOnCartPage, productPriceOnProductPage, "This price is incorrect");
     }
 
     @Test(description = "check that user can add two items in cart", retryAnalyzer = Retry.class)
@@ -30,8 +36,8 @@ public class CartTest extends BaseTest {
         productsPage.addToCart("Sauce Labs Bolt T-Shirt");
         productsPage.addToCart("Sauce Labs Fleece Jacket");
         cartPage.open();
-        Assert.assertTrue(cartPage.isProductDisplayed("Sauce Labs Bolt T-Shirt"));
-        Assert.assertTrue(cartPage.isProductDisplayed("Sauce Labs Fleece Jacket"));
+        assertTrue(cartPage.isProductDisplayed("Sauce Labs Bolt T-Shirt"));
+        assertTrue(cartPage.isProductDisplayed("Sauce Labs Fleece Jacket"));
     }
 
     @Test(description = "check that user can make an order", retryAnalyzer = Retry.class)
@@ -41,8 +47,8 @@ public class CartTest extends BaseTest {
         productsPage.addToCart("Sauce Labs Bolt T-Shirt");
         cartPage.open();
         checkoutPage.open();
-        checkoutPage.confirmOrder("Yul", "Kom", "11111");
-        Assert.assertEquals(checkoutPage.getOrderSuccessful(),
+        checkoutPage.confirmOrder("Ver", "K", "12345");
+        assertEquals(checkoutPage.getOrderSuccessful(),
                 "Your order has been dispatched, and will arrive just as fast as the pony can get there!",
                 "Your order is failed");
     }
@@ -54,7 +60,7 @@ public class CartTest extends BaseTest {
         productsPage.addToCart("Sauce Labs Backpack");
         productsPage.removeFromCart("Sauce Labs Backpack");
         cartPage.open();
-        Assert.assertTrue(cartPage.isProductDisplayed("Sauce Labs Backpack"),
+        assertTrue(cartPage.isProductDisplayed("Sauce Labs Backpack"),
                 "Problem user can delete an item from cart");
     }
 
@@ -66,6 +72,7 @@ public class CartTest extends BaseTest {
         String productOnProductPageDescription = productsPage.getProductDescription("Sauce Labs Backpack");
         cartPage.open();
         String productInCartDescription = cartPage.getProductDescription("Sauce Labs Backpack");
-        Assert.assertEquals(productInCartDescription, productOnProductPageDescription, "The description is wrong");
+        assertEquals(productInCartDescription, productOnProductPageDescription, "The description is wrong");
     }
+
 }
